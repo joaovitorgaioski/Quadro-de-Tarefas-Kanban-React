@@ -1,5 +1,5 @@
-# <a href="quadro-kanban-react.vercel.app/">Quadro de Tarefas Kanban</a>
-
+# Quadro de Tarefas Kanban
+### https://quadro-kanban-react.vercel.app/
 Projeto de criação de um Kanban para trabalhar conceitos fundamentais de React.
 
 ### Usei:
