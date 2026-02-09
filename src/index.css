@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@plugin 'tailwind-scrollbar' {
+  nocompatible: true;
+  preferredstrategy: "pseudoelements";
+}
+
+@layer base {
+  *{
+    @apply scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-red-200 scrollbar-track-red-100 hover:scrollbar-thumb-red-300
+  }
+}
