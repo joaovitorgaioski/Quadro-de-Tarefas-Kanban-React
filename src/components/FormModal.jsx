@@ -44,7 +44,7 @@ function FormModal({ onCloseClick, taskToEdit, ...props }) {
 
       <div>
         <h2>Status da tarefa</h2>
-        <div className="flex justify-around flex-wrap">
+        <div className="flex justify-around flex-wrap gap-2 flex-col md:flex-row">
           {options.map((opt) => (
             <label key={opt} className="cursor-pointer">
               <input
