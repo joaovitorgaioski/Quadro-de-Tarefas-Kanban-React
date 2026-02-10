@@ -23,11 +23,11 @@ function Column({ title, tasks, ...props }) {
         <h1 className="text-xl text-black">{title}</h1>
       </div>
 
-      <ul className="flex-1 overflow-y-auto space-y-4 pr-2 text-justify ">
+      <ul className="flex-1 overflow-y-auto space-y-4 p-2 text-justify ">
         {tasks.map((task) => (
           <li
             key={task.id}
-            className={`${colors[task.status]} shadow-xl flex flex-col p-2 space-y-2 min-h-62`}
+            className={`${colors[task.status]} shadow-xl flex flex-col p-2 space-y-2 min-h-60 max-h-60 transition-all duration-300 ease-out hover:-translate-1 hover:shadow-lg`}
           >
             <h2 className="text-xl text-center m-2 text-black">{task.title}</h2>
             <p className="flex-1 line-clamp-3 wrap-break-word leading-relaxed m-2">

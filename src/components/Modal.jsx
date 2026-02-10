@@ -5,7 +5,7 @@ function Modal(props) {
       {...props}
     >
       <div
-        className="bg-amber-50 rounded-md p-5 space-y-6 h-[80%] w-full max-w-md shadow-2xl flex flex-col"
+        className="bg-amber-50 rounded-md p-5 space-y-6 min-h-[80vh] max-h-[90vh] w-full max-w-md shadow-2xl flex flex-col overflow-y-auto"
         {...props}
       >
         {props.children}

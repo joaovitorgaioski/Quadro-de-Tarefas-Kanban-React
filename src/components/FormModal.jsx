@@ -21,6 +21,7 @@ function FormModal({ onCloseClick, taskToEdit, ...props }) {
           value={title}
         />
       </div>
+
       <div>
         <h2>Descrição</h2>
         <Input
@@ -30,6 +31,7 @@ function FormModal({ onCloseClick, taskToEdit, ...props }) {
           value={description}
         />
       </div>
+
       <div>
         <h2>Prazo de entrega</h2>
         <input
@@ -39,11 +41,12 @@ function FormModal({ onCloseClick, taskToEdit, ...props }) {
           value={deadline}
         />
       </div>
+
       <div>
         <h2>Status da tarefa</h2>
-        <div className="flex justify-around">
+        <div className="flex justify-around flex-wrap">
           {options.map((opt) => (
-            <label key={opt} className="cursor-pointer transition-all hover:translate-1">
+            <label key={opt} className="cursor-pointer">
               <input
                 type="radio"
                 name="status"
@@ -54,7 +57,7 @@ function FormModal({ onCloseClick, taskToEdit, ...props }) {
                 }}
               />
               <span
-                className={`px-4 py-2 rounded-md border-2 border-black/20 inline-block transition-colors ${status === opt ? "bg-red-300" : "bg-amber-50"}`}
+                className={`px-4 py-2 rounded-md border-2 border-black/20 inline-block transition-colors ${status === opt ? "bg-amber-200" : "bg-amber-50"}`}
               >
                 {opt}
               </span>
@@ -62,7 +65,8 @@ function FormModal({ onCloseClick, taskToEdit, ...props }) {
           ))}
         </div>
       </div>
-      <div className="flex justify-around mt-auto">
+
+      <div className="flex justify-around mt-auto shrink-0">
         <Button
           variant="submit"
           onClick={() => {

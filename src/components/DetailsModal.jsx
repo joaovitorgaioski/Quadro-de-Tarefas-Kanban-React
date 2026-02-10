@@ -11,7 +11,7 @@ function DetailsModal({ task, colors, onCloseClick }) {
         <CircleX size={40} />
       </button>
 
-      <div className="flex flex-col gap-10 h-full w-full">
+      <div className="flex flex-col gap-10 flex-1">
         <div className="bg-orange-200 p-4 rounded-md border-3 border-orange-300 flex justify-center text-center">
           <h1 className="text-3xl text-black font-bold">{task.title}</h1>
         </div>
@@ -30,7 +30,7 @@ function DetailsModal({ task, colors, onCloseClick }) {
         <div className="flex gap-2 items-center">
           <Calendar size={20} />
           <span className="text-xl">
-            {new Date(task.deadline).toLocaleDateString("pr-BR", {
+            {new Date(task.deadline).toLocaleDateString("pt-BR", {
               timeZone: "UTC",
             })}
           </span>
