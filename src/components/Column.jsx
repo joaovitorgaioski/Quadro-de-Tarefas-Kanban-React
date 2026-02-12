@@ -1,13 +1,7 @@
-import {
-  ClipboardClock,
-  ChevronRightIcon,
-  EditIcon,
-  TrashIcon,
-} from "lucide-react";
 import { useState } from "react";
 import Section from "./Section";
-import Button from "./Button";
 import DetailsModal from "./DetailsModal";
+import Task from "./Task";
 
 function Column({ title, tasks, ...props }) {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -25,50 +19,14 @@ function Column({ title, tasks, ...props }) {
 
       <ul className="flex-1 overflow-y-auto space-y-4 p-2 text-justify ">
         {tasks.map((task) => (
-          <li
+          <Task
             key={task.id}
-            className={`${colors[task.status]} shadow-xl flex flex-col p-2 space-y-2 min-h-60 max-h-60 transition-all duration-300 ease-out hover:-translate-1 hover:shadow-lg`}
-          >
-            <h2 className="text-xl text-center m-2 text-black">{task.title}</h2>
-            <p className="flex-1 line-clamp-3 wrap-break-word leading-relaxed m-2">
-              {task.description}
-            </p>
-            <span className="flex gap-2">
-              <ClipboardClock />
-              <h3>
-                {new Date(task.deadline).toLocaleDateString("pr-BR", {
-                  timeZone: "UTC",
-                })}
-              </h3>
-            </span>
-
-            <span>
-              <Button
-                variant="task"
-                onClick={() => {
-                  setSelectedTask(task);
-                }}
-              >
-                <ChevronRightIcon />
-              </Button>
-              <Button
-                variant="task"
-                onClick={() => {
-                  props.onTaskToEdit(task);
-                }}
-              >
-                <EditIcon />
-              </Button>
-              <Button
-                variant="task"
-                onClick={() => {
-                  props.onDeleteTask(task.id);
-                }}
-              >
-                <TrashIcon />
-              </Button>
-            </span>
-          </li>
+            task={task}
+            colors={colors}
+            onTaskToEdit={props.onTaskToEdit}
+            onDeleteTask={props.onDeleteTask}
+            setSelectedTask={setSelectedTask}
+          />
         ))}
       </ul>
 
