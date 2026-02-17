@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Section from "./Section";
 import DetailsModal from "./DetailsModal";
 import Task from "./Task";
 import {
@@ -13,31 +12,33 @@ function Column({ title, tasks, colors, ...props }) {
   const { setNodeRef } = useDroppable({ id: title });
 
   return (
-    <Section>
-      <div className="mb-4 shrink-0">
-        <h1 className="text-xl text-black">{title}</h1>
-      </div>
+    <div className="w-[80vw] md:flex-1 h-full shrink-0 snap-center flex flex-col">
+      <div className="flex-1 flex flex-col text-center bg-amber-50 rounded-md p-5 overflow-hidden shadow-lg">
+        <div className="mb-4 shrink-0">
+          <h1 className="text-xl text-black">{title}</h1>
+        </div>
 
-      <ul
-        className="flex-1 overflow-y-auto space-y-4 p-2 text-justify"
-        ref={setNodeRef}
-      >
-        <SortableContext
-          items={tasks.map(task => task.id)}
-          strategy={verticalListSortingStrategy}
+        <ul
+          className="flex-1 overflow-y-auto space-y-4 p-2 text-justify"
+          ref={setNodeRef}
         >
-          {tasks.map((task) => (
-            <Task
-              key={task.id}
-              task={task}
-              colors={colors}
-              onTaskToEdit={props.onTaskToEdit}
-              onDeleteTask={props.onDeleteTask}
-              setSelectedTask={setSelectedTask}
-            />
-          ))}
-        </SortableContext>
-      </ul>
+          <SortableContext
+            items={tasks.map((task) => task.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {tasks.map((task) => (
+              <Task
+                key={task.id}
+                task={task}
+                colors={colors}
+                onTaskToEdit={props.onTaskToEdit}
+                onDeleteTask={props.onDeleteTask}
+                setSelectedTask={setSelectedTask}
+              />
+            ))}
+          </SortableContext>
+        </ul>
+      </div>
 
       {selectedTask && (
         <DetailsModal
@@ -46,7 +47,7 @@ function Column({ title, tasks, colors, ...props }) {
           onCloseClick={() => setSelectedTask(null)}
         />
       )}
-    </Section>
+    </div>
   );
 }
 

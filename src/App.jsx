@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import FormModal from "./components/FormModal";
-import Section from "./components/Section";
 import Column from "./components/Column";
 import Button from "./components/Button";
 import { v4 } from "uuid";
@@ -106,14 +105,12 @@ function App() {
   const activeTask = tasks.find((t) => t.id === activeId);
 
   return (
-    <div className="w-full h-screen bg-red-200 flex flex-col p-2 font-serif space-y-2 text-gray-600 overflow-hidden">
-      <header>
-        <Section>
-          <div className="flex flex-col gap-4 items-center">
-            <h1 className="text-3xl">Quadro de Tarefas Kanban</h1>
-            <Button onClick={toggleFormModal}>Criar Tarefa</Button>
-          </div>
-        </Section>
+    <div className="w-full h-screen bg-red-200 flex flex-col p-2 gap-2 font-serif text-gray-600 overflow-hidden">
+      <header className="text-center flex flex-col bg-amber-50 rounded-md p-5">
+        <div className="flex flex-col gap-4 items-center">
+          <h1 className="text-3xl">Quadro de Tarefas Kanban</h1>
+          <Button onClick={toggleFormModal}>Criar Tarefa</Button>
+        </div>
       </header>
 
       <main className="flex-1 overflow-hidden">
@@ -122,7 +119,7 @@ function App() {
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <div className="flex flex-col space-y-4 h-full md:flex-row md:space-x-2">
+          <div className="flex h-full overflow-x-auto snap-x snap-mandatory px-[10vw] md:px-0 gap-2">
             <Column
               onTaskToEdit={onTaskToEdit}
               onDeleteTask={onDeleteTask}

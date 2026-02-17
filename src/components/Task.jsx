@@ -30,7 +30,7 @@ function Task({ task, colors, isOverlay, ...props }) {
   return (
     <div className="transition-all hover:-translate-1 shadow-md hover:shadow-xl">
       <li
-        className={`${colors[task.status]} flex flex-col p-2 space-y-2 min-h-60 max-h-60`}
+        className={`${colors[task.status]} flex flex-col p-2 space-y-2 md:min-h-60 md:max-h-60`}
         ref={isOverlay ? null : setNodeRef}
         style={style}
         {...(!isOverlay ? attributes : {})}
@@ -38,9 +38,11 @@ function Task({ task, colors, isOverlay, ...props }) {
       >
         <h2 className="text-xl text-center m-2 text-black">{task.title}</h2>
 
-        <p className="flex-1 line-clamp-3 wrap-break-word leading-relaxed m-2">
-          {task.description}
-        </p>
+        {window.innerWidth < 640 ? null : (
+          <p className="flex-1 line-clamp-3 wrap-break-word leading-relaxed m-2">
+            {task.description}
+          </p>
+        )}
 
         <span className="flex gap-2">
           <ClipboardClock />
