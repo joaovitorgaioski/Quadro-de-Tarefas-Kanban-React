@@ -2,9 +2,10 @@
 ### https://quadro-kanban-react.vercel.app/
 Projeto de criação de um Kanban para trabalhar conceitos fundamentais de React.
 
-### Usei:
+### Usado:
 - React
 - Vite
 - Tailwind CSS
 - Lucide React
 - UUID
+- dnd-kit
