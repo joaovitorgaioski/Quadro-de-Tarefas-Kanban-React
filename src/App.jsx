@@ -4,15 +4,37 @@ import Section from "./components/Section";
 import Column from "./components/Column";
 import Button from "./components/Button";
 import { v4 } from "uuid";
+import {
+  DndContext,
+  PointerSensor,
+  useSensors,
+  useSensor,
+  DragOverlay,
+  defaultDropAnimationSideEffects,
+} from "@dnd-kit/core";
+import Task from "./components/Task";
 
 function App() {
   const [isFormModalOpen, setFormModal] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState(null);
+  const [activeId, setActiveId] = useState(null);
 
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : [];
   });
+
+  const colors = {
+    "A Fazer": "bg-red-100 rounded-md border border-red-200",
+    "Em Progresso": "bg-yellow-100 rounded-md border border-yellow-300",
+    Concluido: "bg-green-100 rounded-md border border-green-200",
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 8 },
+    }),
+  );
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -55,8 +77,36 @@ function App() {
     setFormModal(!isFormModalOpen);
   }
 
+  function handleDragStart(event) {
+    setActiveId(event.active.id);
+  }
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    setActiveId(null);
+
+    if (!over) return;
+
+    const taskId = active.id;
+    const overId = over.id;
+    const columns = ["A Fazer", "Em Progresso", "Concluido"];
+
+    // Verificação se caiu em local vazio dentro da coluna ou sobre uma task
+    const newStatus = columns.includes(overId)
+      ? overId
+      : tasks.find((t) => t.id === overId)?.status;
+
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === taskId ? { ...task, status: newStatus } : task,
+      ),
+    );
+  }
+
+  const activeTask = tasks.find((t) => t.id === activeId);
+
   return (
-    <div className="w-screen h-screen bg-red-200 flex flex-col p-2 font-serif space-y-2 text-gray-600 overflow-hidden">
+    <div className="w-full h-screen bg-red-200 flex flex-col p-2 font-serif space-y-2 text-gray-600 overflow-hidden">
       <header>
         <Section>
           <div className="flex flex-col gap-4 items-center">
@@ -67,26 +117,47 @@ function App() {
       </header>
 
       <main className="flex-1 overflow-hidden">
-        <div className="flex flex-col space-y-4 h-full md:flex-row md:space-x-3">
-          <Column
-            onTaskToEdit={onTaskToEdit}
-            onDeleteTask={onDeleteTask}
-            title="A Fazer"
-            tasks={tasks.filter((t) => t.status == "A Fazer")}
-          />
-          <Column
-            onTaskToEdit={onTaskToEdit}
-            onDeleteTask={onDeleteTask}
-            title="Em Progresso"
-            tasks={tasks.filter((t) => t.status == "Em Progresso")}
-          />
-          <Column
-            onTaskToEdit={onTaskToEdit}
-            onDeleteTask={onDeleteTask}
-            title="Concluido"
-            tasks={tasks.filter((t) => t.status == "Concluido")}
-          />
-        </div>
+        <DndContext
+          sensors={sensors}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="flex flex-col space-y-4 h-full md:flex-row md:space-x-2">
+            <Column
+              onTaskToEdit={onTaskToEdit}
+              onDeleteTask={onDeleteTask}
+              colors={colors}
+              title="A Fazer"
+              tasks={tasks.filter((t) => t.status == "A Fazer")}
+            />
+            <Column
+              onTaskToEdit={onTaskToEdit}
+              onDeleteTask={onDeleteTask}
+              colors={colors}
+              title="Em Progresso"
+              tasks={tasks.filter((t) => t.status == "Em Progresso")}
+            />
+            <Column
+              onTaskToEdit={onTaskToEdit}
+              onDeleteTask={onDeleteTask}
+              colors={colors}
+              title="Concluido"
+              tasks={tasks.filter((t) => t.status == "Concluido")}
+            />
+          </div>
+          <DragOverlay
+            dropAnimation={{
+              sideEffects: defaultDropAnimationSideEffects({
+                styles: { active: { opacity: "0.3" } },
+              }),
+            }}
+          >
+            {/* Renderiza se activeTask existir, ou seja, caso esteja acontecendo um drag, senão null */}
+            {activeTask ? (
+              <Task task={activeTask} colors={colors} isOverlay />
+            ) : null}
+          </DragOverlay>
+        </DndContext>
       </main>
 
       {isFormModalOpen && (

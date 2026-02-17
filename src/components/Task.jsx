@@ -5,57 +5,85 @@ import {
   TrashIcon,
 } from "lucide-react";
 import Button from "./Button";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-function Task({ task, colors, ...props }) {
+function Task({ task, colors, isOverlay, ...props }) {
+  // Para o dnd-kit funcionar, também definimos um style. O setNodeRef obtem o endereço da task
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task.id, disabled: isOverlay });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+    opacity: isDragging ? 0.2 : 1,
+    zIndex: isDragging ? 50 : 0,
+    cursor: isOverlay ? "grabbing" : "grab",
+  };
+
   return (
-    <li
-      className={`${colors[task.status]} shadow-xl flex flex-col p-2 space-y-2 min-h-60 max-h-60 transition-all duration-300 ease-out hover:-translate-1 hover:shadow-lg`}
-    >
-      <h2 className="text-xl text-center m-2 text-black">{task.title}</h2>
+    <div className="transition-all hover:-translate-1 shadow-md hover:shadow-xl">
+      <li
+        className={`${colors[task.status]} flex flex-col p-2 space-y-2 min-h-60 max-h-60`}
+        ref={isOverlay ? null : setNodeRef}
+        style={style}
+        {...(!isOverlay ? attributes : {})}
+        {...(!isOverlay ? listeners : {})}
+      >
+        <h2 className="text-xl text-center m-2 text-black">{task.title}</h2>
 
-      <p className="flex-1 line-clamp-3 wrap-break-word leading-relaxed m-2">
-        {task.description}
-      </p>
+        <p className="flex-1 line-clamp-3 wrap-break-word leading-relaxed m-2">
+          {task.description}
+        </p>
 
-      <span className="flex gap-2">
-        <ClipboardClock />
-        <h3>
-          {new Date(task.deadline).toLocaleDateString("pt-BR", {
-            timeZone: "UTC",
-          })}
-        </h3>
-      </span>
+        <span className="flex gap-2">
+          <ClipboardClock />
+          <h3>
+            {new Date(task.deadline).toLocaleDateString("pt-BR", {
+              timeZone: "UTC",
+            })}
+          </h3>
+        </span>
 
-      <span>
-        <Button
-          title="Expandir tarefa"
-          variant="task"
-          onClick={() => {
-            props.setSelectedTask(task);
-          }}
-        >
-          <ChevronRightIcon />
-        </Button>
-        <Button
-          title="Editar tarefa"
-          variant="task"
-          onClick={() => {
-            props.onTaskToEdit(task);
-          }}
-        >
-          <EditIcon />
-        </Button>
-        <Button
-          title="Deletar tarefa"
-          variant="task"
-          onClick={() => {
-            props.onDeleteTask(task.id);
-          }}
-        >
-          <TrashIcon />
-        </Button>
-      </span>
-    </li>
+        {!isOverlay && (
+          <span>
+            <Button
+              title="Expandir tarefa"
+              variant="task"
+              onClick={() => {
+                props.setSelectedTask(task);
+              }}
+            >
+              <ChevronRightIcon />
+            </Button>
+            <Button
+              title="Editar tarefa"
+              variant="task"
+              onClick={() => {
+                props.onTaskToEdit(task);
+              }}
+            >
+              <EditIcon />
+            </Button>
+            <Button
+              title="Deletar tarefa"
+              variant="task"
+              onClick={() => {
+                props.onDeleteTask(task.id);
+              }}
+            >
+              <TrashIcon />
+            </Button>
+          </span>
+        )}
+      </li>
+    </div>
   );
 }
 
