@@ -10,6 +10,7 @@ import {
   useSensor,
   DragOverlay,
   defaultDropAnimationSideEffects,
+  pointerWithin,
 } from "@dnd-kit/core";
 import Task from "./components/Task";
 
@@ -122,8 +123,11 @@ function App() {
           sensors={sensors}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
+          collisionDetection={pointerWithin}
         >
-          <div className="flex h-full overflow-x-auto snap-x snap-mandatory px-[10vw] md:px-0 gap-2">
+          <div
+            className={`flex h-full overflow-x-auto px-[10vw] md:px-0 gap-2 ${!activeId && "snap-x snap-mandatory"}`}
+          >
             <Column
               onTaskToEdit={onTaskToEdit}
               onDeleteTask={onDeleteTask}
