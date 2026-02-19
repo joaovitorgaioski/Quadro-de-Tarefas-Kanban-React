@@ -29,9 +29,13 @@ function App() {
     Concluido: "bg-green-100 rounded-md border border-green-200",
   };
 
+  const isMobile = window.matchMedia("(pointer: coarse)").matches;
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { distance: 8 },
+      activationConstraint: isMobile
+        ? { delay: 250, tolerance: 5 }
+        : { distance: 8 },
     }),
   );
 
