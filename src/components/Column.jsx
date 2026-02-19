@@ -12,7 +12,7 @@ function Column({ title, tasks, colors, ...props }) {
   const { setNodeRef } = useDroppable({ id: title });
 
   return (
-    <div className="w-[80vw] md:flex-1 h-full shrink-0 snap-center flex flex-col">
+    <div className="w-[80vw] md:flex-1 h-full shrink-0 snap-center snap-always flex flex-col">
       <div className="flex-1 flex flex-col text-center bg-amber-50 rounded-md p-5 overflow-hidden shadow-lg">
         <div className="mb-4 shrink-0">
           <h1 className="text-xl text-black">{title}</h1>

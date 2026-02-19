@@ -126,7 +126,7 @@ function App() {
           collisionDetection={pointerWithin}
         >
           <div
-            className={`flex h-full overflow-x-auto px-[10vw] md:px-0 gap-2 ${!activeId && "snap-x snap-mandatory"}`}
+            className={`flex h-full overflow-x-auto px-[10vw] md:px-0 gap-2 scroll-smooth ${!activeId && "snap-x snap-mandatory"}`}
           >
             <Column
               onTaskToEdit={onTaskToEdit}
