@@ -125,9 +125,7 @@ function App() {
           onDragEnd={handleDragEnd}
           collisionDetection={pointerWithin}
         >
-          <div
-            className={`flex h-full overflow-x-auto px-[10vw] md:px-0 gap-2 scroll-smooth ${!activeId && "snap-x snap-mandatory"}`}
-          >
+          <div className="flex h-full overflow-x-auto px-[10vw] md:px-0 gap-2 scroll-smooth snap-x snap-mandatory">
             <Column
               onTaskToEdit={onTaskToEdit}
               onDeleteTask={onDeleteTask}
