@@ -24,6 +24,7 @@ function Task({ task, colors, isOverlay, ...props }) {
     transform: CSS.Transform.toString(transform),
     opacity: isDragging ? 0.2 : 1,
     zIndex: isDragging ? 50 : 0,
+    touchAction: "none",
     cursor: isOverlay ? "grabbing" : "grab",
   };
 
